@@ -1,0 +1,3 @@
+### HTTP GET메소드 실행 테스트
+GET http://localhost:9090/test1
+Content-type
