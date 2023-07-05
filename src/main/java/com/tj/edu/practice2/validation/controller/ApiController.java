@@ -4,7 +4,6 @@ package com.tj.edu.practice2.validation.controller;
 import com.tj.edu.practice2.validation.model.dto.User;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Size;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
