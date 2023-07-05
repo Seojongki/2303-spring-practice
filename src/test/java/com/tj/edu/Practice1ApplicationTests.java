@@ -1,4 +1,4 @@
-package com.tj.edu.practice1;
+package com.tj.edu;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

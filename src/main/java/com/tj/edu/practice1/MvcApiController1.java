@@ -32,4 +32,6 @@ public class MvcApiController1 {
         return "Delete http 메소드입니다";
     }
 
+
+
 }
