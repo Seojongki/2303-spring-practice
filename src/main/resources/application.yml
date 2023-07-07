@@ -1,0 +1,39 @@
+server:
+  port: 8070
+
+application:
+  version: AppVersion 1.0.0
+  title: thejoeun company
+
+spring:
+  datasource:
+    #    generate-unique-name: false
+    url: jdbc:h2:mem:testdb
+    #    url: jdbc:h2:tcp://localhost/~/jpashop
+    driver-class-name: org.h2.Driver
+  #    initialization-mode: always
+  h2:
+    console:
+      path: /h2-console
+      enabled: true
+  #  sql:
+  #    init:
+  #      mode: always
+  jpa:
+    show-sql: true
+    #    generate-ddl: false
+    defer-datasource-initialization: true # data.sql 사용을 위해서 필수적으로 등록
+    properties:
+      hibernate:
+        format_sql: true  #sql문 pretty하게 보여줌
+  #    hibernate:
+  #      ddl-auto: create-drop  # ddl(create, drop)
+
+  mvc:
+    view:
+      prefix: /WEB-INF/view/
+      suffix: .jsp
+  devtools:
+    livereload:
+      enabled: true
+
