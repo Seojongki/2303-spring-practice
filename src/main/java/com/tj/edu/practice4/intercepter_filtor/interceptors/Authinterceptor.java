@@ -13,6 +13,7 @@ import org.springframework.web.servlet.resource.ResourceHttpRequestHandler;
 import java.lang.annotation.Annotation;
 
 @Component
+@SuppressWarnings("unchecked")
 public class Authinterceptor implements HandlerInterceptor {
 
     @Override
