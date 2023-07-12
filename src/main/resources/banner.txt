@@ -7,3 +7,4 @@ ___________.__                  ____.
 ${application.version}
 spring-boot version: ${spring-boot.version}
 ${application.title}
+${application.title}

@@ -1,7 +1,11 @@
 package com.tj.edu.practice5.jpa.model;
 
 
+
 import jakarta.persistence.*;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import lombok.*;
 
 import java.time.LocalDateTime;
