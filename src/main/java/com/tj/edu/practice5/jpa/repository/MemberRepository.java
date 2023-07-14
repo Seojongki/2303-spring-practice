@@ -15,6 +15,8 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 //    Member findByName(String name);
     Set<Member> readByEmail(String email);
 
+    Member findByEmail(String email);
+
     List<Member> findByName(String name);
     Page<Member> findByName(String name, Pageable pageable);
 
@@ -80,9 +82,9 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     List<Member> findByNameOrderByIdDesc(String name);
     List<Member> OrderByIdDesc();
 
-    List<Member> findByAddressIsEmpty();
-
-    List<Member> findByAddressIsNotEmpty();
+//    List<Member> findByAddressIsEmpty();
+//
+//    List<Member> findByAddressIsNotEmpty();
 
     List<Member> findByMaleIsFalse();
 
