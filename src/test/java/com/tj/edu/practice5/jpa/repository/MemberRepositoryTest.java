@@ -1,7 +1,11 @@
 package com.tj.edu.practice5.jpa.repository;
 
+import com.tj.edu.practice5.jpa.model.Book;
+import com.tj.edu.practice5.jpa.model.BookReviewInfo;
 import com.tj.edu.practice5.jpa.model.Member;
+import com.tj.edu.practice5.jpa.model.MemberLogHistory;
 import com.tj.edu.practice5.jpa.model.enums.Nation;
+import jakarta.persistence.PrePersist;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -9,9 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @SpringBootTest
 class MemberRepositoryTest {
@@ -22,10 +24,10 @@ class MemberRepositoryTest {
     @Test
 
     void crud() {
-        Member member0 = new Member(1L, "홍길동", "test@daum.net", null, LocalDateTime.now(), LocalDateTime.now(), null, null, null);
-        // insert문
-        Member copyMember = memberRepository.save(member0); // insert into Member values (~~~
-        System.out.println("copyMember -> " + copyMember);
+//        Member member0 = new Member(1L, "홍길동", "test@daum.net", null, LocalDateTime.now(), LocalDateTime.now(), null, null, null);
+//        // insert문
+//        Member copyMember = memberRepository.save(member0); // insert into Member values (~~~
+//        System.out.println("copyMember -> " + copyMember);
 
 //        Member member =
         // select문
@@ -46,7 +48,16 @@ class MemberRepositoryTest {
 
         // update 문
         System.out.println("update문 ------------------------------------------------------------------------------------------------------------------------");
-        Member member1 = new Member(1L, "홍길동", "이메일 주소", null, LocalDateTime.now(), LocalDateTime.now(), null, null, null);
+//        Member member1 = new Member(1L, "홍길동", "이메일 주소", null, LocalDateTime.now(), LocalDateTime.now(), null, null, null);
+
+        Member member1 = Member.builder()
+                .id(1L)
+                .name("홍길동")
+                .email("이메일 주소")
+//                .createAt(LocalDateTime.now())
+//                .updateAt(LocalDateTime.now())
+                .build();
+
         memberRepository.save(member1); //1번을 가진 id가 있다면 update, 없으면 create문 발생
         List<Member> memberList3 = memberRepository.findAll();
         memberList3.forEach(System.out::println);
@@ -68,19 +79,27 @@ class MemberRepositoryTest {
         Member member = Member.builder()
                 .id(8L)
                 .name("안창호")
-                .createAt(LocalDateTime.now())
+//                .createAt(LocalDateTime.now())
                 .build();
         memberRepository.save(member);
 //
 //        // insert문(update_at컬럼이 null이 아닌 insert)
         Member member2 = Member.builder()
-                .updateAt(LocalDateTime.now())
+//                .updateAt(LocalDateTime.now())
                 .id(9L)
                 .build();
         memberRepository.save(member2);
 
         // insert문(name: 박조은, email: parkjoeun@gmail.com, create_at: 현재시간)
-        Member member3 = new Member(15L, "박조은", "parkjoeun@gmail.com", null, LocalDateTime.now(), null, null, null, null);
+//        Member member3 = new Member(15L, "박조은", "parkjoeun@gmail.com", null, LocalDateTime.now(), null, null, null, null);
+
+        Member member3 = Member.builder()
+                .id(15L)
+                .name("박조은")
+                .email("parkjoeun@gmail.com")
+//                .createAt(LocalDateTime.now())
+                .build();
+
         memberRepository.save(member3);
 
         // select(by)
@@ -172,12 +191,72 @@ class MemberRepositoryTest {
                 .name("마리아")
                 .male(false)
                 .email("maria@naver.com")
-                .createAt(LocalDateTime.now())
-                .updateAt(LocalDateTime.now())
+//                .createAt(LocalDateTime.now())
+//                .updateAt(LocalDateTime.now())
                 .nation(Nation.AMARICA)
                 .build();
         memberRepository.save(member);
 
+
+
+    }
+
+
+    @Test
+    void jpaEventListener(){
+        Member member = Member.builder()
+                .name("유비")
+                .email("youbi@naver.com")
+//                .createAt(LocalDateTime.now())
+//                .updateAt(LocalDateTime.now())
+                .build();
+        memberRepository.save(member);      //insert(PrePersist, PostPersist)
+
+        member.setName("장보고");
+        memberRepository.save(member);
+
+        Member  member2 = memberRepository.findById(1L).orElseThrow(RuntimeException::new); // select(PostLoad)
+        member2.setName("김대중");
+        memberRepository.save(member2);   //update(PreUpdate, Post Update)
+
+        memberRepository.deleteById(3L);   // delete(PreRemove, PostRemove)
+
+
+        member2.setName("표창원");
+        memberRepository.save(member2);   //update(PreUpdate, Post Update)
+
+
+    }
+
+
+
+    @Test
+    void getOneToMany(){
+        Member member = Member.builder()
+                .name("유비")
+                .email("youbi@naver.com")
+                .build();
+        memberRepository.save(member);      //insert(PrePersist, PostPersist)
+
+        member.setName("장보고");
+        memberRepository.save(member);
+
+        List<MemberLogHistory> memberLogHistoryList = memberRepository.findByEmail("youbi@naver.com").getMemberLogHistories();
+
+//        List<Member> memberList = memberRepository.findAll();
+//        Member member2 = memberList.get(0);
+//        List<MemberLogHistory> memberLogHistoryList =  member2.getMemberLogHistories();
+//        System.out.println(">>> memberLogHistoryList:  " + memberLogHistoryList);
+
+//        memberRepository.findAll();
+
+    }
+
+
+
+
+    @Test
+    void emptyTest(){
 
 
     }

@@ -4,23 +4,26 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.time.LocalDateTime;
+import java.util.List;
 
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @ToString
-@Entity
 @EqualsAndHashCode(callSuper=true)
-//@EntityListeners(value = TimeAudiEntityListener.class)
-//@EntityListeners(value = {AuditingEntityListener.class, MemberEntityListener.class})
-public class Address extends BaseEntity{
+@EntityListeners(value = {AuditingEntityListener.class})
+@Entity
+@Table(name = "publisher")
+public class Publisher extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private  String zipcode;
-//    private LocalDateTime createAt;
-//    private LocalDateTime updateAt;
 
+    @Column(nullable = false)
+    private String name;
+
+    @OneToMany
+    @JoinColumn(name = "publisher_id")
+    private List<Book> books;
 }
