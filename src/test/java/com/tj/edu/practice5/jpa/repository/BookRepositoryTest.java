@@ -1,13 +1,15 @@
 package com.tj.edu.practice5.jpa.repository;
 
-import com.tj.edu.practice5.jpa.model.Book;
-import com.tj.edu.practice5.jpa.model.Member;
-import com.tj.edu.practice5.jpa.model.Publisher;
-import com.tj.edu.practice5.jpa.model.Review;
+import com.tj.edu.practice5.jpa.model.*;
+import jakarta.persistence.Tuple;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Commit;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -75,5 +77,100 @@ public class BookRepositoryTest {
     private Member givenMember() {
         return memberRepository.findByEmail("amsun@thejoeun.com");
     }
+
+    @Test
+    void jpqlTest1() {
+        // 성공
+        List<Book> bookList = bookRepository.findByMyBooks("재미있는 자바책");
+        bookList.forEach(System.out::println);
+
+        System.out.println("--------------------------------------------------------------------1");
+
+        // 성공
+        List<Book> bookList2 = bookRepository.findByMyBooksAndMyId(2L, "재미있는 자바책");
+        bookList2.forEach(System.out::println);
+
+        System.out.println("--------------------------------------------------------------------2");
+
+        // 성공
+        List<String> bookList3 = bookRepository.findNameByMyBooks("재미있는 자바책");
+        bookList3.forEach(System.out::println);
+
+        System.out.println("--------------------------------------------------------------------3");
+
+        // 에러
+//        List<Book> bookList4 = bookRepository.findNameIdByMyBooks("재미있는 자바책");
+//        bookList4.forEach(System.out::println);
+        // 성공
+        List<Map<String, Object>> listMap1 = bookRepository.findNameIdByMyBooks("재미있는 자바책");
+        listMap1.forEach(x -> System.out.println(x.entrySet()));
+//        listMap1.forEach(x -> System.out.println(x.values()));
+
+        System.out.println("--------------------------------------------------------------------4");
+
+        List<Map<String, Object>> listMap2 = bookRepository.findByNamedNameIdByMyBooks("재미있는 자바");
+        listMap2.forEach(x -> System.out.println(x.entrySet()));
+
+        System.out.println("--------------------------------------------------------------------5");
+
+        List<Book> bookListByNamed = bookRepository.findByNamedByMyBooksAndMyId( 1L, "재미있는 자바");
+        bookListByNamed.forEach(System.out::println);
+
+    }
+
+
+    @Test
+    void nativeSqlTest(){
+//        List<Book> bookListByNative = bookRepository.findByNativeByMyBooks("재미있는 자바");
+//        bookListByNative.forEach(System.out::println);
+//
+//        System.out.println("--------------------------------------------------------------------6");
+//
+//        List<Book> bookListByNativeName = bookRepository.findByNativeByMyBooks("재미있는 자바책");
+//        bookListByNativeName.forEach(System.out::println);
+
+        System.out.println("--------------------------------------------------------------------7");
+
+        List<Map<String, Object>> bookListByNativeProducts = bookRepository.findByNativeByMyProducts();
+        bookListByNativeProducts.forEach(s -> System.out.println(s.entrySet()));
+
+    }
+
+
+
+    @Test
+    void customModelJpaTest1(){   // 사용자 정의된 데이터 가져오기 (컬럼명은 동일해야함)
+
+        //name을 꼭 맞춰줘야 한다
+        List<BookAndId> bookAndId = bookRepository.findByCustomNamedNameIdByMyBooks("재미있는 자바");
+        bookAndId.forEach(s -> System.out.println(s.getAbc()+" : "+s.getName2()));
+
+        //Tuple은 이름은 상관이 없다.
+//        List<Tuple> bookAndId = bookRepository.findByCustomNamedNameIdByMyBooks("재미있는 자바");
+//        bookAndId.forEach(tuple -> System.out.println(tuple.get(0)+" : "+tuple.get(1)));
+    }
+
+    @Test
+//    @Transactional
+//    @Commit
+    void updateJpaTest1(){
+        int isUpdate = bookRepository.updateSpecificName(2L);
+        System.out.println("2번 id를 가진 book의 이름: "+ (isUpdate > 0 ? "바뀜": "바뀌지 않음"));
+    }
+
+    @Test
+    void deleteJpaTest1(){
+        int isDelete = bookRepository.deleteSpecificName(2L);
+        System.out.println("2번 id를 가진 book의 이름: "+ (isDelete > 0 ? "삭제됨": "삭제되지 않음"));
+    }
+
+    @Test
+    void insertJpaTest1(){
+        int isInsert = bookRepository.insertSpecificName(2L);
+        System.out.println("5번 id를 가진 book의 이름: "+ (isInsert > 0 ? "삽입됨": "삽입되지 않음"));
+    }
+
+
+
 
 }

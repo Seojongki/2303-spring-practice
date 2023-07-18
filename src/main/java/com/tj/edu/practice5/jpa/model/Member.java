@@ -61,7 +61,7 @@ public class Member extends BaseEntity {
     @ToString.Exclude
     private List<MemberLogHistory> memberLogHistories;
 
-    //    @OneToMany(fetch = FetchType.EAGER)
+    //    @OneToMany(fetch = FetchType.EAGER)  //즉시로딩(EAGER)  <--> 지연로딩 (LAZY)
     @OneToMany
     @JoinColumn(name = "member_id")
     @ToString.Exclude
