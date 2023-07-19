@@ -6,9 +6,11 @@ application:
   title: thejoeun company
 
 spring:
+  thymeleaf:
+    cache: false
   sql:
     init:
-      mode: always  # default 상태는 never
+#      mode: always  # default 상태는 never
         # always : embeded db가 아닌 외부 db 사용시 spring boot를 실행할때 마다 data.sql, schema.sql, import.sql을 항상 실행
         # never : data.sql, schema.sql, import.sql을 실행하지 않음
         # data.sql, schema.sql : log에 보이지 않음
@@ -31,7 +33,7 @@ spring:
     #    password: 1234
 
     ##mariadb 데이터 베이스
-    url: jdbc:mariadb://localhost:3306/mydb         # mariadb
+    url: jdbc:mariadb://localhost:3306/mydb2         # mariadb
     driver-class-name: org.mariadb.jdbc.Driver
     username: root
     password: 1234
