@@ -17,6 +17,6 @@
 --insert into book(`id`, `name`, `publisher_id`, `create_at`, `update_at`) values (4, '재미있는 자바책', 2, now(), now());
 
 
-INSERT INTO article (title, content) VALUES ('제목1', '내용1');
-INSERT INTO article (title, content) VALUES ('제목2', '내용2');
-INSERT INTO article (title, content) VALUES ('제목3', '내용3');
+INSERT INTO article (title, content, author) VALUES ('제목1', '내용1', 'user1');
+INSERT INTO article (title, content, author) VALUES ('제목2', '내용2', 'user2');
+INSERT INTO article (title, content, author) VALUES ('제목3', '내용3', 'user3');

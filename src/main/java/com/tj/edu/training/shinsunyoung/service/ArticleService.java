@@ -16,9 +16,8 @@ public class ArticleService {
     private final ArticleRepository articleRepository;
 
     // 블로그 저장하기
-    public Article
-    save(AddArticleRequest addArticleRequest){
-        return articleRepository.save(addArticleRequest.toEntity());
+    public Article save(AddArticleRequest addArticleRequest, String author) {
+        return articleRepository.save(addArticleRequest.toEntity(author));
     }
 
 
