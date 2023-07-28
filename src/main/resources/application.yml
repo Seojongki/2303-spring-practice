@@ -6,11 +6,24 @@ application:
   title: thejoeun company
 
 spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 329640614505-ghojacmncovs2ncb41l3obppcr557d1k.apps.googleusercontent.com
+            client-secret: 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
+            scope:
+              - email
+              - profile
+    user:
+      name: user
+      password: 1234
   thymeleaf:
     cache: false
   sql:
     init:
-#      mode: always  # default 상태는 never
+      mode: always  # default 상태는 never
         # always : embeded db가 아닌 외부 db 사용시 spring boot를 실행할때 마다 data.sql, schema.sql, import.sql을 항상 실행
         # never : data.sql, schema.sql, import.sql을 실행하지 않음
         # data.sql, schema.sql : log에 보이지 않음
@@ -87,4 +100,8 @@ logging:
           decriptor:
             sql: trace
 #    root: trace
+
+jwt:
+  issuer: jwt1@abc.com
+  secret_key: 1234
 

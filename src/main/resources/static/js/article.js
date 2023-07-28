@@ -52,6 +52,7 @@ const deleteButton = document.getElementById('delete-btn');
 if (deleteButton) {
     deleteButton.addEventListener('click', event => {
         let id = document.getElementById('article-id').value;
+        alert(id);
         fetch(`/api/articles/${id}`, {
             method: 'DELETE'
         })

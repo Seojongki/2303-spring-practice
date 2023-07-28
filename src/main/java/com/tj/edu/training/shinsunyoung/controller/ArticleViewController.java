@@ -20,6 +20,14 @@ public class ArticleViewController {
 
     private final ArticleService articleService;
 
+
+    @GetMapping("/")
+    public String main(){
+        return "redirect:/articles";
+    }
+
+
+
     @GetMapping("/articles")
     public String getArticles(Model model){
 
@@ -33,12 +41,6 @@ public class ArticleViewController {
 //        model.addAttribute("articles", articleService.getArticleAll());
         return "articleList";
     }
-
-
-//    @GetMapping("/new-article")
-//    public String newArticles(Model model){
-//        return "newArticle";
-//    }
 
 
     @GetMapping("/new-article")

@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @RestController
@@ -24,8 +26,8 @@ public class ArticleApiController {
      * @return
      */
     @PostMapping("/api/articles")
-    public ResponseEntity<Article> addArticle(@RequestBody AddArticleRequest request) {
-        Article savedArticle = articleService.save(request);   // 글 저장
+    public ResponseEntity<Article> addArticle(@RequestBody AddArticleRequest request, String author) {
+        Article savedArticle = articleService.save(request, author);   // 글 저장
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(savedArticle);
@@ -46,6 +48,10 @@ public class ArticleApiController {
             ArticleResponse articleResponse = new ArticleResponse(article);
             articleResponseList.add(articleResponse);
         }
+
+        //id 내림차순으로 변경
+        Collections.sort(articleResponseList,
+                Comparator.comparingLong(ArticleResponse::getId).reversed());
 
 //        return ResponseEntity.status(HttpStatus.OK)
         return ResponseEntity.ok().body(articleResponseList);
